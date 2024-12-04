@@ -88,12 +88,12 @@
     <ClCompile>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <WarningLevel>Level3</WarningLevel>
-      <AdditionalIncludeDirectories>C:\SFML\Include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\ttred\Downloads\SFML-2.6.2\Include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Console</SubSystem>
-      <AdditionalLibraryDirectories>C:\SFML\lib</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>C:\Users\ttred\Downloads\SFML-2.6.2\lib</AdditionalLibraryDirectories>
       <AdditionalDependencies>sfml-graphics-d.lib;sfml-window-d.lib;sfml-system-d.lib;sfml-network-d.lib;sfml-audio-d.lib;$(CoreLibraryDependencies);%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
@@ -122,15 +122,28 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Engine.cpp" />
-    <ClCompile Include="main.cpp" />
-    <ClCompile Include="Matrices.cpp" />
-    <ClCompile Include="Particle.cpp" />
+    <ClCompile Include="code\Engine.cpp" />
+    <ClCompile Include="code\main.cpp" />
+    <ClCompile Include="code\Matrices.cpp" />
+    <ClCompile Include="code\Particle.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Engine.h" />
-    <ClInclude Include="Matrices.h" />
-    <ClInclude Include="Particle.h" />
+    <ClInclude Include="code\Engine.h" />
+    <ClInclude Include="code\Matrices.h" />
+    <ClInclude Include="code\Particle.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\..\Downloads\SFML-2.6.2\bin\openal32.dll" />
+    <None Include="..\..\..\Downloads\SFML-2.6.2\bin\sfml-audio-2.dll" />
+    <None Include="..\..\..\Downloads\SFML-2.6.2\bin\sfml-audio-d-2.dll" />
+    <None Include="..\..\..\Downloads\SFML-2.6.2\bin\sfml-graphics-2.dll" />
+    <None Include="..\..\..\Downloads\SFML-2.6.2\bin\sfml-graphics-d-2.dll" />
+    <None Include="..\..\..\Downloads\SFML-2.6.2\bin\sfml-network-2.dll" />
+    <None Include="..\..\..\Downloads\SFML-2.6.2\bin\sfml-network-d-2.dll" />
+    <None Include="..\..\..\Downloads\SFML-2.6.2\bin\sfml-system-2.dll" />
+    <None Include="..\..\..\Downloads\SFML-2.6.2\bin\sfml-system-d-2.dll" />
+    <None Include="..\..\..\Downloads\SFML-2.6.2\bin\sfml-window-2.dll" />
+    <None Include="..\..\..\Downloads\SFML-2.6.2\bin\sfml-window-d-2.dll" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

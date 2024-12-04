@@ -16,6 +16,7 @@ namespace Matrices
             ///Initialize each element to 0.
             Matrix(int _rows, int _cols);
 
+
             ///************************************
             ///inline accessors / mutators, these are done:
 
@@ -78,7 +79,11 @@ namespace Matrices
             sin(theta)   cos(theta)
             */
             ///theta represents the angle of rotation in radians, counter-clockwise
-            RotationMatrix(double theta);
+            RotationMatrix(double theta) : Matrix(2, 2) {
+                a[0][0] = cos(theta); a[0][1] = -sin(theta);
+                a[1][0] = cos(theta); a[1][1] = -cos(theta);
+            }
+          
     };
 
     ///2D scaling matrix
@@ -93,7 +98,10 @@ namespace Matrices
             0       scale
             */
             ///scale represents the size multiplier
-            ScalingMatrix(double scale);
+            ScalingMatrix(double scale) : Matrix(2, 2) {
+                a[0][0] = scale; a[0][1] = 0;
+                a[1][0] = 0;     a[1][1] = scale;
+            }
     };
 
     ///2D Translation matrix
@@ -110,7 +118,12 @@ namespace Matrices
             ///paramaters are xShift, yShift, and nCols
             ///nCols represents the number of columns in the matrix
             ///where each column contains one (x,y) coordinate pair
-            TranslationMatrix(double xShift, double yShift, int nCols);
+            TranslationMatrix(double xShift, double yShift, int nCols) : Matrix(2, nCols) {
+                for (int j = 0; j < nCols; ++j) {
+                    a[0][j] = xShift;
+                    a[1][j] = yShift;
+                }
+            }
     };
 }
 

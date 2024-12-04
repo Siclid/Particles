@@ -53,6 +53,7 @@ namespace Matrices
         return result;
     }
 
+
     bool operator==(const Matrix& a, const Matrix& b)
     {
         if (a.getRows() != b.getRows() || a.getCols() != b.getCols())
@@ -89,4 +90,5 @@ namespace Matrices
         }
         return os;
     }
+   
 }
