@@ -1,6 +1,7 @@
 #include "Engine.h"
 #include <iostream>
 #include <cstdlib>
+#include <ctime>
 
 using namespace std;
 using namespace sf;
@@ -12,29 +13,25 @@ using namespace sf;
 }
 
  void Engine::run() {
-	 Clock clock; // obviously tracks the elapsed time
-	 Time time;
+	 srand(static_cast<unsigned int>(time(0)));
+	 Clock clock; // tracks the elapsed time
 
 	 Particle lp(m_Window, 4, {
-		 (int)m_Window.getSize().x / 2,
-		 (int)m_Window.getSize().y / 2
-		 }); // the local particle that is being sized based on the window renderTarget and unit tests
+		static_cast<int>(m_Window.getSize().x / 2),
+		static_cast<int>(m_Window.getSize().y / 2)
+	 }); // the local particle that is being sized based on the window renderTarget and unit tests
 
 	 lp.unitTests();
-	 
 	 cout << "Unit tests complete. Starting Engine..." << endl;
 
-	 while (m_Window.isOpen()) // open up the window
-	 {
+	 while (m_Window.isOpen()) { // open up the window 
 		 Time dt = clock.restart();
 		 float dtSecs = dt.asSeconds();
 
 		 input();
 		 update(dtSecs); // updating the time differential here!
 		 draw();
-	 }
-
-	  
+	 } 
  }
 
  void Engine::update(float dtAsSeconds) {
@@ -59,26 +56,18 @@ using namespace sf;
  void Engine::input() {
 	 Event event;
 	 while (m_Window.pollEvent(event)) {
-		 if (event.type == Event::Closed) {
-			 m_Window.close(); // setup close event
-		 }
-
-		 if (event.type == Event::KeyPressed && event.key.code == Keyboard::Escape) {
-			 m_Window.close(); // setup escape key close :D
+		 if (event.type == Event::Closed ||
+			 (event.type == Event::KeyPressed && event.key.code == Keyboard::Escape)) {
+			 m_Window.close(); // Close the window if 'Esc' is pressed or window is closed
 		 }
 
 		 if (event.type == Event::MouseButtonPressed && event.mouseButton.button == Mouse::Left) {
-			 // get the mouse click position
 			 Vector2i mousePosition = Mouse::getPosition(m_Window);
 
-			 // generate numbers according to professors range of [25,50] 
 			 for (int i = 0; i < 5; i++) {
-				 int numberOfPoints = 25 + rand() % 26; // range from 0 to 25
+				 int numberOfPoints = 25 + rand() % 26; // Generate points in range [25, 50]
 				 m_particles.emplace_back(m_Window, numberOfPoints, mousePosition);
 			 }
-
-
 		 }
-
 	 }
  }

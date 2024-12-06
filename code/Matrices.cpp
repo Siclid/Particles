@@ -14,11 +14,10 @@ namespace Matrices {
 
     Matrix operator+(const Matrix& a, const Matrix& b) {
         if (a.getRows() != b.getRows() || a.getCols() != b.getCols()) {
-            throw std::runtime_error("Error: dimensions must agree");
+            throw runtime_error("Error: dimensions must agree");
         }
 
         Matrix result(a.getRows(), a.getCols());
-
         for (int i = 0; i < a.getRows(); ++i) {
             for (int j = 0; j < a.getCols(); ++j) {
                 result(i, j) = a(i, j) + b(i, j);
@@ -30,7 +29,7 @@ namespace Matrices {
 
     Matrix operator*(const Matrix& a, const Matrix& b) {
          if (a.getCols() != b.getRows()) {
-            throw std::runtime_error("Error: dimensions must agree");
+            throw runtime_error("Error: dimensions must agree");
         }
 
         Matrix result(a.getRows(), b.getCols());
