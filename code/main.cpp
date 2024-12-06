@@ -2,10 +2,8 @@
 #include <iostream>
 
 using namespace std;
-using namespace sf;
 
-int main()
-{
+int main() {
 	// Declare an instance of Engine
 	Engine engine;
 	// Start the engine

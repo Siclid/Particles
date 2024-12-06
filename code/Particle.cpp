@@ -1,20 +1,108 @@
-#include "Particle.h"
-#include "Matrices.h"
-#include <SFML/Graphics.hpp>
+﻿#include "Particle.h"
 #include <cmath>
 #include <cstdlib>
+#include <iostream>
 
 using namespace std;
 using namespace sf;
 using namespace Matrices;
 
-bool Particle::almostEqual(double a, double b, double eps)
-{
+Particle::Particle(RenderTarget& target, int numPoints, Vector2i mouseClickPosition)
+    : m_A(2, numPoints), m_ttl(TTL), m_numPoints(numPoints) {
+    // Initialize Cartesian plane
+    m_cartesianPlane.setCenter(0, 0);
+    m_cartesianPlane.setSize(target.getSize().x, -1.0f * target.getSize().y);
+
+    // Map mouse position to Cartesian coordinates
+    m_centerCoordinate = target.mapPixelToCoords(mouseClickPosition, m_cartesianPlane);
+
+    // Randomize velocities
+    m_vx = 100 + static_cast<float>(rand() % 401); // [100, 500]
+    if (rand() % 2) m_vx *= -1;
+    m_vy = 100 + static_cast<float>(rand() % 401); // [100, 500]
+    m_radiansPerSec = static_cast<float>(rand()) / RAND_MAX * M_PI; // [0, π]
+
+    // Set colors
+    m_color1 = Color::White;
+    m_color2 = Color(rand() % 256, rand() % 256, rand() % 256);
+
+    // Generate vertices
+    float theta = 0.0f;
+    float dTheta = 2.0f * M_PI / static_cast<float>(numPoints - 1);
+    for (int j = 0; j < numPoints; ++j) {
+        float r = 20 + rand() % 61; // [20, 80]
+        float dx = r * cos(theta);
+        float dy = r * sin(theta);
+
+        m_A(0, j) = m_centerCoordinate.x + dx;
+        m_A(1, j) = m_centerCoordinate.y + dy;
+
+        theta += dTheta;
+    }
+}
+
+void Particle::draw(RenderTarget& target, RenderStates states) const {
+    VertexArray lines(TriangleFan, m_numPoints + 1);
+
+    Vector2f center = target.mapCoordsToPixel(m_centerCoordinate, m_cartesianPlane);
+    lines[0].position = center;
+    lines[0].color = m_color1;
+
+    for (int j = 1; j <= m_numPoints; ++j) {
+        Vector2f point = target.mapCoordsToPixel(
+            { static_cast<float>(m_A(0, j - 1)), static_cast<float>(m_A(1, j - 1)) },
+            m_cartesianPlane
+        );
+        lines[j].position = point;
+        lines[j].color = m_color2;
+    }
+
+    target.draw(lines);
+}
+
+void Particle::update(float dt) {
+    m_ttl -= dt; // Reduce time to live
+    rotate(dt * m_radiansPerSec); // Rotate
+    scale(SCALE); // Shrink
+    m_vy -= G * dt; // Apply gravity
+    translate(m_vx * dt, m_vy * dt); // Move particle
+}
+
+void Particle::rotate(double theta) {
+    Vector2f temp = m_centerCoordinate;
+    translate(-temp.x, -temp.y);
+
+    RotationMatrix R(theta);
+    m_A = R * m_A;
+
+    translate(temp.x, temp.y);
+}
+
+void Particle::scale(double c) {
+    Vector2f temp = m_centerCoordinate;
+    translate(-temp.x, -temp.y);
+
+    ScalingMatrix S(c);
+    m_A = S * m_A;
+
+    translate(temp.x, temp.y);
+}
+
+void Particle::translate(double xShift, double yShift) {
+    TranslationMatrix T(xShift, yShift, m_A.getCols());
+    m_A = T + m_A;
+
+    m_centerCoordinate.x += xShift;
+    m_centerCoordinate.y += yShift;
+}
+
+//given: do not change
+bool Particle::almostEqual(double a, double b, double eps) {
     return fabs(a - b) < eps;
 }
 
-void Particle::unitTests()
-{
+//given: do not change
+void Particle::unitTests() {
     int score = 0;
 
     cout << "Testing RotationMatrix constructor...";
