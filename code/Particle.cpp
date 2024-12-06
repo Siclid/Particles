@@ -111,13 +111,10 @@ void Particle::unitTests() {
     if (r.getRows() == 2 && r.getCols() == 2 && almostEqual(r(0, 0), cos(theta))
         && almostEqual(r(0, 1), -sin(theta))
         && almostEqual(r(1, 0), sin(theta))
-        && almostEqual(r(1, 1), cos(theta)))
-    {
+        && almostEqual(r(1, 1), cos(theta))) {
         cout << "Passed.  +1" << endl;
         score++;
-    }
-    else
-    {
+    } else {
         cout << "Failed." << endl;
     }
 
@@ -127,13 +124,10 @@ void Particle::unitTests() {
         && almostEqual(s(0, 0), 1.5)
         && almostEqual(s(0, 1), 0)
         && almostEqual(s(1, 0), 0)
-        && almostEqual(s(1, 1), 1.5))
-    {
+        && almostEqual(s(1, 1), 1.5)) {
         cout << "Passed.  +1" << endl;
         score++;
-    }
-    else
-    {
+    } else {
         cout << "Failed." << endl;
     }
 
@@ -145,25 +139,20 @@ void Particle::unitTests() {
         && almostEqual(t(0, 1), 5)
         && almostEqual(t(1, 1), -5)
         && almostEqual(t(0, 2), 5)
-        && almostEqual(t(1, 2), -5))
-    {
+        && almostEqual(t(1, 2), -5)) {
         cout << "Passed.  +1" << endl;
         score++;
-    }
-    else
-    {
+    } else {
         cout << "Failed." << endl;
     }
 
 
     cout << "Testing Particles..." << endl;
     cout << "Testing Particle mapping to Cartesian origin..." << endl;
-    if (m_centerCoordinate.x != 0 || m_centerCoordinate.y != 0)
-    {
+    if (m_centerCoordinate.x != 0 || m_centerCoordinate.y != 0) {
         cout << "Failed.  Expected (0,0).  Received: (" << m_centerCoordinate.x << "," << m_centerCoordinate.y << ")" << endl;
     }
-    else
-    {
+    else {
         cout << "Passed.  +1" << endl;
         score++;
     }
@@ -172,22 +161,17 @@ void Particle::unitTests() {
     Matrix initialCoords = m_A;
     rotate(M_PI / 2.0);
     bool rotationPassed = true;
-    for (int j = 0; j < initialCoords.getCols(); j++)
-    {
-        if (!almostEqual(m_A(0, j), -initialCoords(1, j)) || !almostEqual(m_A(1, j), initialCoords(0, j)))
-        {
+    for (int j = 0; j < initialCoords.getCols(); j++) {
+        if (!almostEqual(m_A(0, j), -initialCoords(1, j)) || !almostEqual(m_A(1, j), initialCoords(0, j))) {
             cout << "Failed mapping: ";
             cout << "(" << initialCoords(0, j) << ", " << initialCoords(1, j) << ") ==> (" << m_A(0, j) << ", " << m_A(1, j) << ")" << endl;
             rotationPassed = false;
         }
     }
-    if (rotationPassed)
-    {
+    if (rotationPassed) {
         cout << "Passed.  +1" << endl;
         score++;
-    }
-    else
-    {
+    } else {
         cout << "Failed." << endl;
     }
 
@@ -195,22 +179,18 @@ void Particle::unitTests() {
     initialCoords = m_A;
     scale(0.5);
     bool scalePassed = true;
-    for (int j = 0; j < initialCoords.getCols(); j++)
-    {
-        if (!almostEqual(m_A(0, j), 0.5 * initialCoords(0, j)) || !almostEqual(m_A(1, j), 0.5 * initialCoords(1, j)))
-        {
+    for (int j = 0; j < initialCoords.getCols(); j++) {
+        if (!almostEqual(m_A(0, j), 0.5 * initialCoords(0, j)) || !almostEqual(m_A(1, j), 0.5 * initialCoords(1, j))) {
             cout << "Failed mapping: ";
             cout << "(" << initialCoords(0, j) << ", " << initialCoords(1, j) << ") ==> (" << m_A(0, j) << ", " << m_A(1, j) << ")" << endl;
             scalePassed = false;
         }
     }
-    if (scalePassed)
-    {
+    if (scalePassed) {
         cout << "Passed.  +1" << endl;
         score++;
     }
-    else
-    {
+    else {
         cout << "Failed." << endl;
     }
 
@@ -218,22 +198,17 @@ void Particle::unitTests() {
     initialCoords = m_A;
     translate(10, 5);
     bool translatePassed = true;
-    for (int j = 0; j < initialCoords.getCols(); j++)
-    {
-        if (!almostEqual(m_A(0, j), 10 + initialCoords(0, j)) || !almostEqual(m_A(1, j), 5 + initialCoords(1, j)))
-        {
+    for (int j = 0; j < initialCoords.getCols(); j++) {
+        if (!almostEqual(m_A(0, j), 10 + initialCoords(0, j)) || !almostEqual(m_A(1, j), 5 + initialCoords(1, j))) {
             cout << "Failed mapping: ";
             cout << "(" << initialCoords(0, j) << ", " << initialCoords(1, j) << ") ==> (" << m_A(0, j) << ", " << m_A(1, j) << ")" << endl;
             translatePassed = false;
         }
     }
-    if (translatePassed)
-    {
+    if (translatePassed) {
         cout << "Passed.  +1" << endl;
         score++;
-    }
-    else
-    {
+    } else {
         cout << "Failed." << endl;
     }
 
