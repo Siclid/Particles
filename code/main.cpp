@@ -1,6 +1,8 @@
-#include <iostream>
 #include "Engine.h"
+#include <iostream>
+
 using namespace std;
+using namespace sf;
 
 int main()
 {

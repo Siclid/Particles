@@ -1,4 +1,11 @@
 #include "Matrices.h"
+#include <cmath>
+#include <stdexcept>
+#include <iostream>
+#include <iomanip>
+
+using namespace std;
+using namespace Matrices;
 
 namespace Matrices
 {

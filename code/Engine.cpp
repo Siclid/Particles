@@ -1,6 +1,8 @@
-#include <iostream>
 #include "Engine.h"
 #include "Particle.h"
+#include <SFML/Graphics.hpp>
+#include <iostream>
+#include <cstdlib>
 
 using namespace std;
 using namespace sf;

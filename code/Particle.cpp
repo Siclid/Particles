@@ -1,5 +1,12 @@
 #include "Particle.h"
+#include "Matrices.h"
+#include <SFML/Graphics.hpp>
+#include <cmath>
+#include <cstdlib>
 
+using namespace std;
+using namespace sf;
+using namespace Matrices;
 
 bool Particle::almostEqual(double a, double b, double eps)
 {
