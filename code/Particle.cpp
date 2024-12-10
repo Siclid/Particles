@@ -5,6 +5,14 @@ bool Particle::almostEqual(double a, double b, double eps)
 {
     return fabs(a - b) < eps;
 }
+Particle::Particle(RenderTarget& target, int numPoints, Vector2i mouseClickPosition)
+    : m_ttl(TTL),
+    m_numPoints(numPoints),
+    m_centerCoordinate(static_cast<Vector2f>(mouseClickPosition)),
+    m_A(2, numPoints) 
+{
+   
+}
 
 void Particle::unitTests()
 {
