@@ -16,11 +16,8 @@ using namespace sf;
 	 srand(static_cast<unsigned int>(time(0)));
 	 Clock clock; // tracks the elapsed time
 
-	 Particle lp(m_Window, 4, {
-		static_cast<int>(m_Window.getSize().x / 2),
-		static_cast<int>(m_Window.getSize().y / 2)
-	 }); // the local particle that is being sized based on the window renderTarget and unit tests
-
+	 // Create a local particle for unit tests
+	 Particle lp(m_Window, 4, { static_cast<int>(m_Window.getSize().x / 2), static_cast<int>(m_Window.getSize().y / 2) });
 	 lp.unitTests();
 	 cout << "Unit tests complete. Starting Engine..." << endl;
 
@@ -32,6 +29,25 @@ using namespace sf;
 		 update(dtSecs); // updating the time differential here!
 		 draw();
 	 } 
+ }
+
+ void Engine::input() {
+	 Event event;
+	 while (m_Window.pollEvent(event)) {
+		 if (event.type == Event::Closed || (event.type == Event::KeyPressed && event.key.code == Keyboard::Escape)) {
+			 m_Window.close(); // Close window if 'Esc' is pressed or window is closed
+		 }
+
+		 if (event.type == Event::MouseButtonPressed && event.mouseButton.button == Mouse::Left) {
+			 Vector2i mousePosition = Mouse::getPosition(m_Window);
+			 Vector2f mousePositionF = static_cast<Vector2f>(mousePosition); // Explicit conversion
+
+			 for (int i = 0; i < 5; i++) {
+				 int numberOfPoints = 25 + rand() % 26; // Generate points in range [25, 50]
+				 m_particles.emplace_back(m_Window, numberOfPoints, mousePositionF); // Updated constructor
+			 }
+		 }
+	 }
  }
 
  void Engine::update(float dtAsSeconds) {
@@ -53,21 +69,4 @@ using namespace sf;
 	 m_Window.display(); // display the window state. or updated window frame.
  }
 
- void Engine::input() {
-	 Event event;
-	 while (m_Window.pollEvent(event)) {
-		 if (event.type == Event::Closed ||
-			 (event.type == Event::KeyPressed && event.key.code == Keyboard::Escape)) {
-			 m_Window.close(); // Close the window if 'Esc' is pressed or window is closed
-		 }
 
-		 if (event.type == Event::MouseButtonPressed && event.mouseButton.button == Mouse::Left) {
-			 Vector2i mousePosition = Mouse::getPosition(m_Window);
-
-			 for (int i = 0; i < 5; i++) {
-				 int numberOfPoints = 25 + rand() % 26; // Generate points in range [25, 50]
-				 m_particles.emplace_back(m_Window, numberOfPoints, mousePosition);
-			 }
-		 }
-	 }
- }

@@ -10,17 +10,17 @@ using namespace Matrices;
 Particle::Particle(RenderTarget& target, int numPoints, Vector2i mouseClickPosition)
     : m_A(2, numPoints), m_ttl(TTL), m_numPoints(numPoints) {
     // Initialize Cartesian plane
-    m_cartesianPlane.setCenter(0, 0);
-    m_cartesianPlane.setSize(target.getSize().x, -1.0f * target.getSize().y);
+    m_cartesianPlane.setCenter(0.0f, 0.0f);
+    m_cartesianPlane.setSize(static_cast<float>(target.getSize().x), -static_cast<float>(target.getSize().y));
 
     // Map mouse position to Cartesian coordinates
     m_centerCoordinate = target.mapPixelToCoords(mouseClickPosition, m_cartesianPlane);
 
     // Randomize velocities
-    m_vx = 100 + static_cast<float>(rand() % 401); // [100, 500]
+    m_vx = 100.0f + static_cast<float>(rand() % 401); // [100, 500]
     if (rand() % 2) m_vx *= -1;
-    m_vy = 100 + static_cast<float>(rand() % 401); // [100, 500]
-    m_radiansPerSec = static_cast<float>(rand()) / RAND_MAX * M_PI; // [0, π]
+    m_vy = 100.0f + static_cast<float>(rand() % 401); // [100, 500]
+    m_radiansPerSec = static_cast<float>(rand()) / RAND_MAX * static_cast<float>(M_PI); // [0, π]
 
     // Set colors
     m_color1 = Color::White;
@@ -28,9 +28,9 @@ Particle::Particle(RenderTarget& target, int numPoints, Vector2i mouseClickPosit
 
     // Generate vertices
     float theta = 0.0f;
-    float dTheta = 2.0f * M_PI / static_cast<float>(numPoints - 1);
+    float dTheta = 2.0f * static_cast<float>(M_PI) / static_cast<float>(numPoints - 1);
     for (int j = 0; j < numPoints; ++j) {
-        float r = 20 + rand() % 61; // [20, 80]
+        float r = 20.0f + static_cast<float>(rand() % 61); // [20, 80]
         float dx = r * cos(theta);
         float dy = r * sin(theta);
 
