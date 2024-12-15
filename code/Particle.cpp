@@ -7,14 +7,15 @@ using namespace std;
 using namespace sf;
 using namespace Matrices;
 
-Particle::Particle(RenderTarget& target, int numPoints, Vector2i mouseClickPosition)
+Particle::Particle(RenderTarget& target, int numPoints, sf::Vector2i mouseClickPosition)
     : m_A(2, numPoints), m_ttl(TTL), m_numPoints(numPoints) {
     // Initialize Cartesian plane
     m_cartesianPlane.setCenter(0.0f, 0.0f);
     m_cartesianPlane.setSize(static_cast<float>(target.getSize().x), -static_cast<float>(target.getSize().y));
 
     // Map mouse position to Cartesian coordinates
-    m_centerCoordinate = target.mapPixelToCoords(mouseClickPosition, m_cartesianPlane);
+    sf::Vector2f mappedCoords = target.mapPixelToCoords(mouseClickPosition, m_cartesianPlane);
+    m_centerCoordinate = mappedCoords;
 
     // Randomize velocities
     m_vx = 100.0f + static_cast<float>(rand() % 401); // [100, 500]
@@ -44,16 +45,20 @@ Particle::Particle(RenderTarget& target, int numPoints, Vector2i mouseClickPosit
 void Particle::draw(RenderTarget& target, RenderStates states) const {
     VertexArray lines(TriangleFan, m_numPoints + 1);
 
-    Vector2f center = target.mapCoordsToPixel(m_centerCoordinate, m_cartesianPlane);
-    lines[0].position = center;
+    // Convert center coordinate from Cartesian to pixel coordinates
+    sf::Vector2i centerPixel = target.mapCoordsToPixel(m_centerCoordinate, m_cartesianPlane);
+    sf::Vector2f centerPixelF(static_cast<float>(centerPixel.x), static_cast<float>(centerPixel.y));
+    lines[0].position = centerPixelF;
     lines[0].color = m_color1;
 
+    // Loop through the vertices and map Cartesian coordinates to pixel space
     for (int j = 1; j <= m_numPoints; ++j) {
-        Vector2f point = target.mapCoordsToPixel(
+        sf::Vector2i pointPixel = target.mapCoordsToPixel(
             { static_cast<float>(m_A(0, j - 1)), static_cast<float>(m_A(1, j - 1)) },
             m_cartesianPlane
         );
-        lines[j].position = point;
+        sf::Vector2f pointPixelF(static_cast<float>(pointPixel.x), static_cast<float>(pointPixel.y));
+        lines[j].position = pointPixelF;
         lines[j].color = m_color2;
     }
 
