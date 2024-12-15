@@ -7,14 +7,14 @@ using namespace std;
 using namespace sf;
 using namespace Matrices;
 
-Particle::Particle(RenderTarget& target, int numPoints, sf::Vector2i mouseClickPosition)
+Particle::Particle(RenderTarget& target, int numPoints, Vector2i mouseClickPosition)
     : m_A(2, numPoints), m_ttl(TTL), m_numPoints(numPoints) {
     // Initialize Cartesian plane
     m_cartesianPlane.setCenter(0.0f, 0.0f);
     m_cartesianPlane.setSize(static_cast<float>(target.getSize().x), -static_cast<float>(target.getSize().y));
 
     // Map mouse position to Cartesian coordinates
-    sf::Vector2f mappedCoords = target.mapPixelToCoords(mouseClickPosition, m_cartesianPlane);
+    Vector2f mappedCoords = target.mapPixelToCoords(mouseClickPosition, m_cartesianPlane);
     m_centerCoordinate = mappedCoords;
 
     // Randomize velocities
@@ -46,18 +46,18 @@ void Particle::draw(RenderTarget& target, RenderStates states) const {
     VertexArray lines(TriangleFan, m_numPoints + 1);
 
     // Convert center coordinate from Cartesian to pixel coordinates
-    sf::Vector2i centerPixel = target.mapCoordsToPixel(m_centerCoordinate, m_cartesianPlane);
-    sf::Vector2f centerPixelF(static_cast<float>(centerPixel.x), static_cast<float>(centerPixel.y));
+    Vector2i centerPixel = target.mapCoordsToPixel(m_centerCoordinate, m_cartesianPlane);
+    Vector2f centerPixelF(static_cast<float>(centerPixel.x), static_cast<float>(centerPixel.y));
     lines[0].position = centerPixelF;
     lines[0].color = m_color1;
 
     // Loop through the vertices and map Cartesian coordinates to pixel space
     for (int j = 1; j <= m_numPoints; ++j) {
-        sf::Vector2i pointPixel = target.mapCoordsToPixel(
+        Vector2i pointPixel = target.mapCoordsToPixel(
             { static_cast<float>(m_A(0, j - 1)), static_cast<float>(m_A(1, j - 1)) },
             m_cartesianPlane
         );
-        sf::Vector2f pointPixelF(static_cast<float>(pointPixel.x), static_cast<float>(pointPixel.y));
+        Vector2f pointPixelF(static_cast<float>(pointPixel.x), static_cast<float>(pointPixel.y));
         lines[j].position = pointPixelF;
         lines[j].color = m_color2;
     }
@@ -69,8 +69,7 @@ void Particle::update(float dt) {
     m_ttl -= dt; // Reduce time to live
     rotate(dt * m_radiansPerSec); // Rotate
     scale(SCALE); // Shrink
-    m_vy -= G * dt; // Apply gravity
-    translate(m_vx * dt, m_vy * dt); // Move particle
+    translate(static_cast<double>(m_vx * dt), static_cast<double>(m_vy * dt));
 }
 
 void Particle::rotate(double theta) {
@@ -97,8 +96,8 @@ void Particle::translate(double xShift, double yShift) {
     TranslationMatrix T(xShift, yShift, m_A.getCols());
     m_A = T + m_A;
 
-    m_centerCoordinate.x += xShift;
-    m_centerCoordinate.y += yShift;
+    m_centerCoordinate.x += static_cast<float>(xShift);
+    m_centerCoordinate.y += static_cast<float>(yShift);
 }
 
 //given: do not change
