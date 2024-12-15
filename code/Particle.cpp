@@ -66,10 +66,15 @@ void Particle::draw(RenderTarget& target, RenderStates states) const {
 }
 
 void Particle::update(float dt) {
-    m_ttl -= G * dt; // Reduce time to live
-    rotate(dt * m_radiansPerSec); // Rotate
-    scale(SCALE); // Shrink
-    translate(static_cast<double>(m_vx * dt), static_cast<double>(m_vy * dt));
+    m_ttl -= dt;
+    rotate(dt * m_radiansPerSec);
+    scale(SCALE);
+
+    float dx = m_vx * dt;
+    m_vy -= G * dt;
+    float dy = m_vy * dt;
+
+    translate(dx, dy);
 }
 
 void Particle::rotate(double theta) {
