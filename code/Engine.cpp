@@ -14,7 +14,7 @@ using namespace sf;
 
  void Engine::run() {
 	 srand(static_cast<unsigned int>(time(0)));
-	 Clock clock; // tracks the elapsed time
+	 Clock clock; // tracks the elapsed
 
 	 // Create a local particle for unit tests
 	 Particle lp(m_Window, 4, { static_cast<int>(m_Window.getSize().x / 2), static_cast<int>(m_Window.getSize().y / 2) });
@@ -60,7 +60,7 @@ using namespace sf;
 }
 
  void Engine::draw() {
-	 m_Window.clear(Color::Magenta);
+	 m_Window.clear(Color::Black);
 	 for (const auto& particle : m_particles) {
 		 m_Window.draw(particle);
 	 }
