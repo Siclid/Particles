@@ -5,6 +5,7 @@
 #include "Matrices.h"
 
 #define M_PI 3.1415926535897932384626433
+
 const float G = 1000.0f;      //Gravity
 const float TTL = 5.0f;  //Time To Live
 const float SCALE = 0.999f;

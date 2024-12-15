@@ -14,7 +14,7 @@ Particle::Particle(RenderTarget& target, int numPoints, Vector2i mouseClickPosit
     m_cartesianPlane.setSize(static_cast<float>(target.getSize().x), -static_cast<float>(target.getSize().y));
 
     // Map mouse position to Cartesian coordinates
-    Vector2f mappedCoords = target.mapPixelToCoords(mouseClickPosition, m_cartesianPlane);
+    Vector2f mappedCoords = static_cast<Vector2f>(target.mapPixelToCoords(mouseClickPosition, m_cartesianPlane));
     m_centerCoordinate = mappedCoords;
 
     // Randomize velocities

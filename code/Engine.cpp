@@ -40,11 +40,9 @@ using namespace sf;
 
 		 if (event.type == Event::MouseButtonPressed && event.mouseButton.button == Mouse::Left) {
 			 Vector2i mousePosition = Mouse::getPosition(m_Window);
-			 Vector2f mousePositionF = static_cast<Vector2f>(mousePosition); // Explicit conversion
-
 			 for (int i = 0; i < 5; i++) {
-				 int numberOfPoints = 25 + rand() % 26; // Generate points in range [25, 50]
-				 m_particles.emplace_back(m_Window, numberOfPoints, mousePositionF); // Updated constructor
+				 int numberOfPoints = 25 + rand() % 26; // Randomized number of points
+				 m_particles.emplace_back(m_Window, numberOfPoints, mousePosition); // Use Vector2i directly
 			 }
 		 }
 	 }
